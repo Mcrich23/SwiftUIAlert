@@ -12,8 +12,13 @@ import SwiftUI
 import SwiftUIX
 
 public struct SwiftUIAlert {
-    public static func show(title: String, message: String, preferredStyle: UIAlertController.Style, actions: [UIAlertAction]) {
+    public static func show(image: UIImage? = nil, title: String, message: String, preferredStyle: UIAlertController.Style, actions: [UIAlertAction]) {
         let presentingAlert = UIAlertController(title: NSLocalizedString(title, comment: "Title in SwiftUIAlert"), message: NSLocalizedString(message, comment: "Message in SwiftUIAlert"), preferredStyle: preferredStyle)
+        if let image {
+            let imageView = UIImageView(frame: CGRectMake(220, 10, 40, 40))
+            imageView.image = image
+            presentingAlert.view.addSubview(imageView)
+        }
         for action in actions {
             presentingAlert.addAction(action)
         }
@@ -27,30 +32,33 @@ public struct SwiftUIAlert {
         }
         topVC.present(presentingAlert, animated: true, completion: nil)
     }
-    public static func textfieldShow(title: String, message: String, preferredStyle: UIAlertController.Style, textfield: AlertTextfield, actions: [UIAlertAction]) {
+    public static func textfieldShow(imageView: UIImageView? = nil, title: String, message: String, preferredStyle: UIAlertController.Style, textfield: AlertTextfield, actions: [UIAlertAction]) {
         let presentingAlert = UIAlertController(title: NSLocalizedString(title, comment: "Title in SwiftUI TextfieldAlert"), message: NSLocalizedString(message, comment: "Message in SwiftUI TextfieldAlert"), preferredStyle: preferredStyle)
-            presentingAlert.addTextField { tf in
-                tf.autocorrectionType = textfield.autocorrectionType
-                tf.placeholder = NSLocalizedString(textfield.placeholder, comment: "")
-                tf.text = textfield.text
-                tf.clearButtonMode = textfield.clearButtonMode
-//                tf.clearsOnBeginEditing = textfield.clearsOnBeginEditing
-                tf.enablesReturnKeyAutomatically = textfield.enablesReturnKeyAutomatically
-                tf.autocapitalizationType = textfield.autocapitalization
-                tf.returnKeyType = textfield.returnKeyType
-                tf.keyboardType = textfield.keyboardType
-                tf.keyboardAppearance = textfield.keyboardAppearance
-                switch textfield.isSecureTextEntry {
-                case .yes(let passwordRules):
-                    tf.isSecureTextEntry = true
-                    tf.passwordRules = passwordRules
-                case .no:
-                    tf .isSecureTextEntry = false
-                }
+        if let imageView {
+            presentingAlert.view.addSubview(imageView)
+        }
+        presentingAlert.addTextField { tf in
+            tf.autocorrectionType = textfield.autocorrectionType
+            tf.placeholder = NSLocalizedString(textfield.placeholder, comment: "")
+            tf.text = textfield.text
+            tf.clearButtonMode = textfield.clearButtonMode
+            //                tf.clearsOnBeginEditing = textfield.clearsOnBeginEditing
+            tf.enablesReturnKeyAutomatically = textfield.enablesReturnKeyAutomatically
+            tf.autocapitalizationType = textfield.autocapitalization
+            tf.returnKeyType = textfield.returnKeyType
+            tf.keyboardType = textfield.keyboardType
+            tf.keyboardAppearance = textfield.keyboardAppearance
+            switch textfield.isSecureTextEntry {
+            case .yes(let passwordRules):
+                tf.isSecureTextEntry = true
+                tf.passwordRules = passwordRules
+            case .no:
+                tf .isSecureTextEntry = false
+            }
         }
         func setText() {
             if let textField = presentingAlert.textFields?.first, let text = textField.text {
-//                print("Code = \(text)")
+                //                print("Code = \(text)")
                 textfield.text = text
             }
             DispatchQueue.main.asyncAfter(deadline: .now()) {
