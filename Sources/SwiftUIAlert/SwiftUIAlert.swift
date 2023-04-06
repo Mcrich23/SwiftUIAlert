@@ -12,11 +12,9 @@ import SwiftUI
 import SwiftUIX
 
 public struct SwiftUIAlert {
-    public static func show(image: UIImage? = nil, title: String, message: String, preferredStyle: UIAlertController.Style, actions: [UIAlertAction]) {
+    public static func show(imageView: UIImageView? = nil, title: String, message: String, preferredStyle: UIAlertController.Style, actions: [UIAlertAction]) {
         let presentingAlert = UIAlertController(title: NSLocalizedString(title, comment: "Title in SwiftUIAlert"), message: NSLocalizedString(message, comment: "Message in SwiftUIAlert"), preferredStyle: preferredStyle)
-        if let image {
-            let imageView = UIImageView(frame: CGRectMake(220, 10, 40, 40))
-            imageView.image = image
+        if let imageView {
             presentingAlert.view.addSubview(imageView)
         }
         for action in actions {
