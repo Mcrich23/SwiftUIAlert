@@ -31,3 +31,11 @@ SwiftUIAlert.textfieldShow(title: "Test", //Alert Title
                             actions: [UIAlertAction(title: "Done", style: .default)]
 )
 ```
+
+## **dismissAnyAlertIfPresent**
+
+Dismisses any alerts present
+
+```
+SwiftUIAlert.dismissAnyAlertControllerIfPresent()
+```

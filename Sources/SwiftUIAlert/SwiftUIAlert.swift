@@ -77,5 +77,18 @@ public struct SwiftUIAlert {
         }
         topVC.present(presentingAlert, animated: true, completion: nil)
     }
+    public static func dismissAnyAlertIfPresent() {
+        guard var topVC = UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).first?.windows.first?.rootViewController else {
+            return
+        }
+        // iterate til we find the topmost presented view controller
+        // if you don't you'll get an error since you can't present 2 vcs from the same level
+        while let presentedVC = topVC.presentedViewController {
+            topVC = presentedVC
+        }
+        if topVC.isKind(of: UIAlertController.self) {
+            topVC.dismiss(animated: false, completion: nil)
+        }
+    }
 }
 #endif
